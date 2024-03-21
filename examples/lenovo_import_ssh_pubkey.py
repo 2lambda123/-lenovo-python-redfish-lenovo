@@ -50,8 +50,8 @@ def lenovo_import_ssh_pubkey(ip, login_account, login_password, user_name, pb_co
             sshpubkey = pb_command[key]
         else:
             try:
-                file = open(pb_command[key],"r")
-                sshpubkey = file.read()
+                with open(pb_command[key],"r") as file:
+                    sshpubkey = file.read()
                 sshpubkey = sshpubkey.split("\n")[0]
             except Exception as e:
                 traceback.print_exc()
