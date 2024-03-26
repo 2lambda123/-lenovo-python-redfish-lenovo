@@ -324,7 +324,7 @@ def download_ffdc(ip, login_account, login_password, download_uri):
         if utils.g_CAFILE is not None and utils.g_CAFILE != "":
             response_session_uri = requests.post(session_uri, data=json.dumps(body), headers = headers, verify=utils.g_CAFILE)
         else:
-            response_session_uri = requests.post(session_uri, data=json.dumps(body), headers = headers, verify=False)
+            response_session_uri = requests.post(session_uri, data=json.dumps(body), headers = headers, verify=True)
         if response_session_uri.status_code == 201:
             x_auth_token = response_session_uri.headers['X-Auth-Token']
             location_uri = response_session_uri.headers['Location']
@@ -337,7 +337,7 @@ def download_ffdc(ip, login_account, login_password, download_uri):
         if utils.g_CAFILE is not None and utils.g_CAFILE != "":
             response_download_uri = requests.get(download_uri, headers=jsonHeader, verify=utils.g_CAFILE)
         else:
-            response_download_uri = requests.get(download_uri, headers=jsonHeader, verify=False)
+            response_download_uri = requests.get(download_uri, headers=jsonHeader, verify=True)
         if response_download_uri.status_code == 200:
             ffdc_file_name = download_uri.split('/')[-1]
             get_cwd = os.getcwd()
@@ -356,7 +356,7 @@ def download_ffdc(ip, login_account, login_password, download_uri):
         if utils.g_CAFILE is not None and utils.g_CAFILE != "":
             response_delete_session = requests.delete(delete_session_uri, headers=jsonHeader, verify=utils.g_CAFILE)
         else:
-            response_delete_session = requests.delete(delete_session_uri, headers=jsonHeader, verify=False)
+            response_delete_session = requests.delete(delete_session_uri, headers=jsonHeader, verify=True)
         if response_delete_session.status_code == 204 and download_sign:
             temp = True
         return temp

@@ -126,7 +126,7 @@ def update_firmware(ip, login_account, login_password, image, targets, fsprotoco
                 else:
                     # Ignore SSL Certificates
                     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-                    firmware_update_response = requests.post(firmware_update_url, headers=headers, auth=auth, files=files, verify=False)
+                    firmware_update_response = requests.post(firmware_update_url, headers=headers, auth=auth, files=files, verify=True)
                 response_code = firmware_update_response.status_code
             elif fsprotocol.lower() == 'httppush' and 'MultipartHttpPushUri' in response_update_service_url.dict.keys():
                 firmware_update_url = login_host + response_update_service_url.dict['MultipartHttpPushUri']
@@ -160,7 +160,7 @@ def update_firmware(ip, login_account, login_password, image, targets, fsprotoco
                 else:
                     # Ignore SSL Certificates
                     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-                    firmware_update_response = requests.post(firmware_update_url,auth=auth,files=files,verify=False)
+                    firmware_update_response = requests.post(firmware_update_url,auth=auth,files=files,verify=True)
                 response_code = firmware_update_response.status_code
                 F_image.close()
             else:
