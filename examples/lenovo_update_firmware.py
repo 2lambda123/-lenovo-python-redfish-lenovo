@@ -152,7 +152,7 @@ def lenovo_update_firmware(ip, login_account, login_password, image, targets, fs
                     # Set BMC access credential
                     auth = HTTPBasicAuth(login_account, login_password)
                     print("Start to upload the image, may take about 3~10 minutes...\n")
-                    response = requests.post(firmware_update_url, auth=auth, files=files, verify=False)
+                    response = requests.post(firmware_update_url, auth=auth, files=files, verify=False, timeout=60)
                     response_code = response.status_code
                     F_image.close()
                 else:
@@ -183,7 +183,7 @@ def lenovo_update_firmware(ip, login_account, login_password, image, targets, fs
                         # Set BMC access credential
                         auth = HTTPBasicAuth(login_account, login_password)
                         print("Start to upload the image, may take about 3~10 minutes...\n")
-                        response = requests.post(firmware_upload_url, auth=auth, files=files, verify=False)
+                        response = requests.post(firmware_upload_url, auth=auth, files=files, verify=False, timeout=60)
                         response_code = response.status_code
                         F_image.close()
                         if response_code == 204:
