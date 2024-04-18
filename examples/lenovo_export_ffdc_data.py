@@ -28,6 +28,7 @@ import lenovo_utils as utils
 import time
 import os
 from urllib.parse import urlparse
+from security import safe_requests
 
 
 def lenovo_export_ffdc_data(ip, login_account, login_password, fsprotocol, fsip, fsport, fsusername, fspassword, fsdir, logtype="Debuglog", exporturl=None):
@@ -335,9 +336,9 @@ def download_ffdc(ip, login_account, login_password, download_uri):
         jsonHeader = {"X-Auth-Token":x_auth_token, "Content-Type":"application/json"}
         # Download FFDC file
         if utils.g_CAFILE is not None and utils.g_CAFILE != "":
-            response_download_uri = requests.get(download_uri, headers=jsonHeader, verify=utils.g_CAFILE)
+            response_download_uri = safe_requests.get(download_uri, headers=jsonHeader, verify=utils.g_CAFILE)
         else:
-            response_download_uri = requests.get(download_uri, headers=jsonHeader, verify=False)
+            response_download_uri = safe_requests.get(download_uri, headers=jsonHeader, verify=False)
         if response_download_uri.status_code == 200:
             ffdc_file_name = download_uri.split('/')[-1]
             get_cwd = os.getcwd()
@@ -360,9 +361,6 @@ def download_ffdc(ip, login_account, login_password, download_uri):
         if response_delete_session.status_code == 204 and download_sign:
             temp = True
         return temp
-
-
-import argparse
 def add_helpmessage(argget):
     argget.add_argument('--fsprotocol', type=str, choices = ["SFTP", "TFTP", "HTTP"], help='Specify the file server protocol. Support:["SFTP", "TFTP", "HTTP"]. Note: HTTP file server can only be used on SR635 and SR655 old firmwares, since BMC version V2.94(BUILD ID:AMBT16O) support protocol switch to SFTP file server instead of HTTP file server.')
     argget.add_argument('--fsip', type=str, help='Specify the file server ip.')
